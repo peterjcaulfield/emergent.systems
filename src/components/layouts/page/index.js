@@ -24,7 +24,6 @@ const PageContainer = styled('div')`
 
 const UnderConstruction = styled('div')`
   text-align: center;
-  padding: 2rem;   
 `
 
 const _ = key => {
@@ -48,18 +47,18 @@ class Page extends React.Component {
 
   getContent(data, isBlogPage, isHomepage, children) {
     return (
-      <PageContainer> 
-        <Header 
-          title={data.site.siteMetadata.title} 
-          isBlogPage={isBlogPage}
-          isHomepage={isHomepage}
-        /> 
-        <ContentContainer>
-          <Content>
-              {children}
-          </Content>
-        </ContentContainer>
-      </PageContainer>
+        <React.Fragment>
+          <Header 
+            title={data.site.siteMetadata.title} 
+            isBlogPage={isBlogPage}
+            isHomepage={isHomepage}
+          /> 
+          <ContentContainer>
+            <Content>
+                {children}
+            </Content>
+          </ContentContainer>
+        </React.Fragment>
     )
   }
 
@@ -80,9 +79,12 @@ class Page extends React.Component {
           }
         `}
         render={data => (
-          !_(location.search) ? 
-            this.getPlaceHolder() : 
-            this.getContent(data, isBlogPage, isHomepage, children)
+            <PageContainer> 
+              {!_(location.search) ? 
+                this.getPlaceHolder() : 
+                this.getContent(data, isBlogPage, isHomepage, children)
+              }
+            </PageContainer>
         )}
       />
     )
