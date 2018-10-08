@@ -1,0 +1,45 @@
+version: 1
+jobs:
+  build:
+    branches:
+      ingnore:
+        - gh-pages
+
+    docker:
+      - image: circleci/node:10.10
+
+    working_directory: ~/emergent.systems
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Build
+          command: npm build
+
+      - save_cache:
+          paths:
+            - node_modules
+            - .cache
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              echo "$DOMAIN" > public/CNAME
+              cp -r .circleci public/.circleci
+              git config --global user.email "$GH_EMAIL"
+              git config --global user.name "$GH_NAME"
+              NODE_DEBUG=gh-pages npm run deploy -- -m 'automated build from circleci'
+            else
+              echo "Not in master branch, not deploying"
+            fi

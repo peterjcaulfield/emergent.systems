@@ -1,0 +1,57 @@
+@import url(https://cdn.rawgit.com/tonsky/FiraCode/1.206/distr/fira_code.css);
+
+html, body, #___gatsby, div#___gatsby > div:first-child {}
+.gatsby-highlight {
+  margin: 1.58rem 0;
+  /*padding: 1em;*/
+  overflow: auto;
+
+}
+.gatsby-highlight pre[class*="language-"] {
+  border-radius: 5px;
+}
+code[class*="language-"], pre[class*="language-"] {
+  font-family: 'Fira code' !important;
+  font-weight: 400;
+  font-feature-settings: "calt" 1;
+  font-variant-ligatures: contextual;
+}
+
+.twitter-tweet {
+  margin: 1.58rem auto !important;
+}
+
+:not(pre) > code[class*="language-"] {
+  padding: 0.1rem 0.25rem !important;
+}
+
+@media (min-width: 780px) {
+.gatsby-highlight {
+    margin-left: -26px !important;
+    margin-right: -26px !important;
+  }
+.gatsby-resp-image-wrapper {
+    margin-left: -25px !important;
+    margin-right: -25px !important;
+  }
+}
+
+
+/**
+ * Remove the default PrismJS theme background-color, border-radius, margin,
+ * padding and overflow.
+ * 1. Make the element just wide enough to fit its content.
+ * 2. Always fill the visible space in .gatsby-highlight.
+ * 3. Adjust the position of the line numbers
+ */
+/*.gatsby-highlight pre[class*="language-"] {*/
+  /*background-color: transparent;*/
+  /*margin: 0;*/
+  /*padding: 0;*/
+  /*overflow: initial;*/
+  /*float: left; [> 1 <]*/
+  /*min-width: 100%; [> 2 <]*/
+/*}*/
+/*.gatsby-highlight pre[class*="language-"].line-numbers {*/
+  /*padding-left: 2.8em; [> 3 <]*/
+/*}*/
