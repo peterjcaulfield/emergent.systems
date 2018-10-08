@@ -42,15 +42,31 @@ const _ = key => {
 
 class Page extends React.Component {
 
+  getPlaceHolder() {
+    return <UnderConstruction><h1>Under Construction</h1></UnderConstruction> 
+  }
+
+  getContent(data, isBlogPage, isHomepage, children) {
+    return (
+      <PageContainer> 
+        <Header 
+          title={data.site.siteMetadata.title} 
+          isBlogPage={isBlogPage}
+          isHomepage={isHomepage}
+        /> 
+        <ContentContainer>
+          <Content>
+              {children}
+          </Content>
+        </ContentContainer>
+      </PageContainer>
+    )
+  }
+
   render() {
     const { children, location } = this.props 
     const isHomepage = location.pathname === `/`
     const isBlogPage = location.pathname.indexOf('blog') !== -1;
-    if(!_(location.search)) return (
-      <UnderConstruction>
-        <h1>Under Construction</h1>
-      </UnderConstruction>
-    )
 
     return (
       <StaticQuery
@@ -64,18 +80,9 @@ class Page extends React.Component {
           }
         `}
         render={data => (
-            <PageContainer> 
-              <Header 
-                title={data.site.siteMetadata.title} 
-                isBlogPage={isBlogPage}
-                isHomepage={isHomepage}
-              /> 
-              <ContentContainer>
-                <Content>
-                    {children}
-                </Content>
-            </ContentContainer>
-          </PageContainer>
+          !_(location.search) ? 
+            this.getPlaceHolder() : 
+            this.getContent(data, isBlogPage, isHomepage, children)
         )}
       />
     )
