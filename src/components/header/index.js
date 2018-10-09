@@ -29,7 +29,7 @@ const Banner = styled('div')`
   flex-direction: row;
   padding-top: 1rem;
   background: rgb(242, 77, 50);
-  a {
+  a,a:hover,a:visited {
     text-decoration: none;
     color: #fff;
   }

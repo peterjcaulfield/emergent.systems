@@ -40,7 +40,7 @@ class About extends React.Component {
                   <div>
                     <p>I'm a fullstack javascript developer based in Dublin.</p>
                     <p>
-                      You can find me on <Link to="">LinkedIn</Link> and <Link to="">Github</Link>.
+                      You can find me on <a href="https://linkedin.com/in/peterjcaulfield/">LinkedIn</a> and <a href="https://github.com/peterjcaulfield">Github</a>.
                     </p>
                   </div>
               </ProfileText>
