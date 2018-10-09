@@ -172,6 +172,9 @@ representing the max bytes! It also has handy abstractions for getting and setti
 field values which allows you to avoid the lower level bitshifting operations 
 if you wish ;)
 
+Special thanks to [@lammino](https://twitter.com/loige) and [@dkatvic](https://twitter.com/katavic_d) 
+for taking the time to review this post.
+
 I'll leave you with a handy table detailing bitwise operators in javascript courtesy of
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators):
 
