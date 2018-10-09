@@ -16,7 +16,8 @@ to optimise for space. Bitwise operations also tend to be blazing fast.
 
 Bit fields are suitable for encoding state that is represented by boolean properties, 
 with the meaning of individual bits being determined by the programmer.
-In javascript we can model a bit field using es6 binary primitives and bitwise operators.
+In javascript we can model a bit field simply with es6 binary primitives and 
+bitwise operators.
 
 I stumbled across bit fields recently through this tweet from Andrew Clark,
 a member of the ReactJS core team:
@@ -28,10 +29,10 @@ a member of the ReactJS core team:
 
 The React team are making use of bit fields to track component state within the 
 new fibre architecture of ReactJS! Rather than using React internals as an example 
-lets try with something simpler to learn how to work with a bit field.
+lets try with something simpler to learn how to work with a bit field. 
 
 ---
-
+# Creating our own bit field
 Imagine we have an object containing the feature toggle state for an application:
 
 ```js
@@ -66,7 +67,6 @@ A mask in this context is a another value made up of bits.
 Let’s define the bit masks for the feature toggle state example above:
 
 ```js
-// featureFlags.js
 export const defaultState = /*   */ 0b00000000 // all disabled
 export const autoRefresh = /*    */ 0b00000001
 export const sidebarWidgets = /* */ 0b00000010 
@@ -76,8 +76,11 @@ export const ticker = /*         */ 0b00000100
 
 ### Setting the value of a bit
 We can set the value of a bit using the bitwise OR `|` and XOR `^` operators in javascript. 
+
 The `|` operator returns a 1 in each bit position for which the corresponding 
-bits of **either or both** operands are 1s. The `^` operator returns a 1 in each 
+bits of **either or both** operands are 1s. 
+
+The `^` operator returns a 1 in each 
 bit position for which the corresponding bits of **either but not both** operands are 1s.
 
 ![Bitwise OR operator example](bitwise-or.png)
@@ -143,7 +146,7 @@ bit as before without the predefined mask:
     ...doSomething
 ```
 
-The expression `js>(1 << x)` is equivalent to `js>Math.pow(2, x)`.  
+**Hint:** The expression `js>(1 << x)` is equivalent to `js>Math.pow(2, x)`.  
 
 You could also just use the literal binary value:
 
@@ -153,15 +156,23 @@ You could also just use the literal binary value:
 ```
 
 ---
+### Final thoughts
 
 When using bit fields, we are trading off readability for optimisations in 
 performance/memory usage. It’s advisable to attempt other methods of optimisation 
 before making use of bit fields! - However it's always good to have something in 
-your back pocket for when the time calls. It also helps shed some light on the
-lengths javascript library authors are going to to help shave bytes off the 
-final bundle size and ensure the best performance possible.
+your back pocket for when the time calls. This post also hopefully helps shed some 
+light on the lengths javascript library authors are going to to help shave some bytes 
+off the final bundle size and ensure the best performance possible where needed.
 
-I'll leave you with a handy table detailing javascripts bitwise operators courtesy of
+If you are interested in working with bitfields checkout the [bitfield](https://github.com/fb55/bitfield)
+library on NPM which supports a variety of data structures as the backing data
+structure for your bitfield including NodeJS buffers, arrays and even a number
+representing the max bytes! It also has handy abstractions for getting and setting 
+field values which allows you to avoid the lower level bitshifting operations 
+if you wish ;)
+
+I'll leave you with a handy table detailing bitwise operators in javascript courtesy of
 [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators):
 
 ![Bitwise Operators](bitwise-operators.png)

@@ -80,10 +80,7 @@ class Page extends React.Component {
         `}
         render={data => (
             <PageContainer> 
-              {!_(location.search) ? 
-                this.getPlaceHolder() : 
-                this.getContent(data, isBlogPage, isHomepage, children)
-              }
+              {this.getContent(data, isBlogPage, isHomepage, children)}
             </PageContainer>
         )}
       />
