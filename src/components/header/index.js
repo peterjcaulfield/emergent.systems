@@ -86,6 +86,15 @@ const Navigation = styled('div')`
   display: flex;
 `
 
+const Progress = styled('div')`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: #fff;
+`
+
 const fixed = css`
   position: fixed;
   top: 0;
@@ -102,31 +111,53 @@ class Header extends React.Component {
   constructor(props) {
     super(props) 
     this.handleScroll = this.handleScroll.bind(this)
+    this.scrollHandlers.push(this.updateNavbar)
+    props.isBlogPage && this.scrollHandlers.push(this.updateProgress)
   }
+
+  scrollHandlers = []
 
   titleRef = null
 
-  state = {
-    fixMenu: false 
-  }
+  progressRef = null
 
-  handleScroll() {
+  state = {
+    fixNavbar: false,
+  }
+  
+  shouldFixNavbar = () => {
     if (this.titleRef) {
       const { height, top } = this.titleRef.getBoundingClientRect()  
-      if (top < 0 && Math.abs(top) > parseInt(height, 10)) {
-        if (!this.state.fixMenu) {
-          this.setState(state => (
-            {...state, ...{ fixMenu: true }}
-          ))
-        }
-      } else {
-        if (this.state.fixMenu) {
-          this.setState(state => (
-            {...state, ...{ fixMenu: false }}
-          ))
-        }
-      }
+      return top < 0 && Math.abs(top) > parseInt(height, 10)
     }
+    return false
+  }
+
+  updateNavbar = () => {
+    const { fixNavbar } = this.state
+    if (this.shouldFixNavbar()) {
+      !fixNavbar && this.setState(state => ({ fixNavbar: true }))
+    } else if (fixNavbar) {
+      this.setState(state => ({ fixNavbar: false }))
+    }
+  }
+
+  updateProgress = () => {
+    if (!this.props.isBlogPage) return
+
+    if (this.progressRef && this.titleRef) {
+      const { height:titleBarHeight } = this.titleRef.getBoundingClientRect()
+      const { scrollY, innerHeight } = window
+      const contentHeight = document.body.clientHeight
+      const scrollBottom = contentHeight - innerHeight - titleBarHeight
+      const progress = 100 * ((scrollY - titleBarHeight) / scrollBottom)
+      const update = progress >= 0 ? progress : 0;
+      this.progressRef.style.width = `${update}%`
+    }
+  }
+
+  handleScroll = e => {
+    this.scrollHandlers.forEach(handler => handler(e))
   }
   
   componentDidMount() {
@@ -147,8 +178,9 @@ class Header extends React.Component {
           <h1><Link to="/">{title}</Link></h1>
         </Title>
         <Banner
-          className={this.state.fixMenu ? fixed: ''}
+          className={this.state.fixNavbar ? fixed: ''}
         >
+          <Progress innerRef={progress => (this.progressRef = progress)}/>
           <NavigationContainer>
             <Navigation>
               <StyledLink to="/">Blog</StyledLink>
@@ -156,7 +188,7 @@ class Header extends React.Component {
             </Navigation>
           </NavigationContainer>
         </Banner>
-        <Push style={{ display: this.state.fixMenu ? 'block' : 'none' }}/>
+        <Push style={{ display: this.state.fixNavbar ? 'block' : 'none' }}/>
       </HeaderContainer>
     )
   }
