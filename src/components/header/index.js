@@ -143,8 +143,6 @@ class Header extends React.Component {
   }
 
   updateProgress = () => {
-    if (!this.props.isBlogPage) return
-
     if (this.progressRef && this.titleRef) {
       const { height:titleBarHeight } = this.titleRef.getBoundingClientRect()
       const { scrollY, innerHeight } = window
